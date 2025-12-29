@@ -1,7 +1,7 @@
-import {POOL} from 'pg';
+import {Pool} from 'pg';
 
 
-export const poolPosgres = new POOL ({
+export const poolPosgres = new Pool ({
 
 Host:process.env.DB_HOST,
 user:process.env.DB_USER,
@@ -11,4 +11,4 @@ database:process.env.DB_NAME
 
 });
 
-module.export = {poolPosgres};
+export default  {poolPosgres};

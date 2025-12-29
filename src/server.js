@@ -1,12 +1,7 @@
-import {app} from './index';
+import app from './index.js';
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
-app.listen(
-    PORT, () => {
-        console.log( `servidor levantado en http:localhost:${PORT} `)
-    }
-) 
-
-
-
+app.listen(PORT, () => {
+  console.log(`Servidor levantado en http://localhost:${PORT}`);
+});
