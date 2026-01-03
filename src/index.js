@@ -19,6 +19,6 @@ app.use('/aquaticWorld/v1/usuarios', userRoutes);
 
 app.use('/aquaticWorld/v1/productos',categoriaRoutes);
 
-app.use('//aquaticWorld/v1',productosRoutes)
+app.use('/aquaticWorld/v1',productosRoutes)
 
 export default app;

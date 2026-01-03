@@ -4,15 +4,13 @@ import {productosController} from "../controllers/productos.controller.js";
 const router = Router();
 
 
-/* router.get('/productos',) */
+router.get('/productos',productosController.verProductos)
 
 router.post('/productos',productosController.nuevoProducto)
 
-/* router.put('/productos/:id',)
+router.patch('/productos/:id',productosController.modificarProductos)
 
-router.patch('/productos/:id',)
-
-router.delete('/productos/:id',) */
+router.delete('/productos/:id',productosController.eliminarProductos) 
 
 
 export default router;

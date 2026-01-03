@@ -13,11 +13,49 @@ const crearProducto = async(nombre,descripcion,precio,img,stock,categoria_id) =>
     return rows[0];
 };
 
+const obtenerProductos = async() => {
+    const query = {
+        text :`SELECT * FROM productos   `
+     }
+    const {rows} = await poolPostgres.query(query)
+    return rows[0];
+    }
+
+const modificarProductos = async(id,{nombre,descripcion,precio,img,stock,categoria_id}) => {
+    const  query = {
+        text: `UPDATE productos 
+        SET nombre = $2
+            descripcion = $3
+            precio = $4
+            img = $5
+            stock = $6
+            categori_id =7 
+            WHERE id = $1
+            RETURNING *`,
+            values :[id,nombre,descripcion,precio,img,stock,categoria_id]
+    }
+    const {rows} = await poolPostgres.query(query);
+    return rows[0]
+;
+} 
+
+const eliminarProductos = async(id) => {
+  const query = {
+    text : `DELETE * FROM producto 
+            WHERE id = $1
+            RETURNING *`,
+            values :[id]
+  }
+   const {rows} = await poolPostgres.query(query);
+   return rows[0];
 
 
-
+}
 
 export const productosModel ={
-    crearProducto
+    crearProducto,
+    obtenerProductos,
+    modificarProductos,
+    eliminarProductos
 
 }
