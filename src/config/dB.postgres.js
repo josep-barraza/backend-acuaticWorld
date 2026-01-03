@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 
 dotenv.config();
 
-export const poolPosgres = new Pool({
+export const poolPostgres = new Pool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: String(process.env.DB_PASSWORD), 
@@ -11,4 +11,4 @@ export const poolPosgres = new Pool({
   database: process.env.DB_NAME,
 });
 
-export default poolPosgres;
+export default poolPostgres;

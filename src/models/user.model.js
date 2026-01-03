@@ -1,4 +1,4 @@
-import { poolPosgres } from '../config/dB.posgres.js';
+import { poolPostgres } from '../config/dB.postgres.js';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -14,7 +14,7 @@ const findOneByEmail = async (email) => {
     values: [email]
   };
 
-  const { rows } = await poolPosgres.query(query);
+  const { rows } = await poolPostgres.query(query);
   return rows[0];
 };
 
@@ -33,7 +33,7 @@ const crearUsuario = async ({nombre, email, password }) => {
     values: [id, nombre, email, hashedPassword]
   };
 try {
-     const { rows } = await poolPosgres.query(query);
+     const { rows } = await poolPostgres.query(query);
   return rows[0];
     
 } catch (error) {
@@ -47,21 +47,20 @@ try {
 };
 
 /* Modificar usuario */
-const modificarUsuario = async (id, { nombre, password }) => {
-  const hashedPassword = await bcrypt.hash(password, 10);
+const actualizarPassword = async (id, nuevaPassword) => {
+  const hashedPassword = await bcrypt.hash(nuevaPassword, 10);
 
   const query = {
     text: `
       UPDATE usuarios
-      SET nombre = $1,
-          password = $2
-      WHERE id = $3
-      RETURNING id, nombre, email
+      SET password = $1
+          WHERE id = $2
+          RETURNING id, nombre, email
     `,
-    values: [nombre, hashedPassword, id]
+    values: [ hashedPassword, id]
   };
 
-  const { rows } = await poolPosgres.query(query);
+  const { rows } = await poolPostgres.query(query);
   return rows[0];
 };
 
@@ -76,13 +75,13 @@ const eliminarUsuario = async (id) => {
     values: [id]
   };
 
-  const { rows } = await poolPosgres.query(query);
+  const { rows } = await poolPostgres.query(query);
   return rows[0];
 };
 
 export const userModel = {
   findOneByEmail,
   crearUsuario,
-  modificarUsuario,
+  actualizarPassword,
   eliminarUsuario
 };
