@@ -125,11 +125,35 @@ try {
 
 }
 
+const agregarAlCarrito = async (req, res) => {
+  try {
+    const usuarioId = req.user.id;
+    const { productoId } = req.body;
+
+    if (!productoId)
+      return res.status(400).json({ msg: "productoId es requerido" });
+
+    const item = await agregarProductoAlCarrito(usuarioId, productoId);
+
+    res.status(201).json({
+      ok: true,
+      msg: "Producto agregado al carrito",
+      item
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error al agregar producto al carrito" });
+  }
+};
+
 
 export const productosController = {
+    
 nuevoProducto,
 verProductos,
 modificarProductos,
-eliminarProductos
+eliminarProductos,
+agregarAlCarrito
 
 }

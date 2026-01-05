@@ -52,10 +52,45 @@ const eliminarProductos = async(id) => {
 
 }
 
+
+
+const agregarProductoAlCarrito = async (usuarioId, productoId) => {
+
+  
+  await poolPostgres.query(
+    `INSERT INTO carritos (usuario_id)
+     VALUES ($1)
+     ON CONFLICT (usuario_id) DO NOTHING`,
+    [usuarioId]
+  );
+
+ 
+  const { rows: carritoRows } = await poolPostgres.query(
+    `SELECT id FROM carritos WHERE usuario_id = $1 AND activo = TRUE`,
+    [usuarioId]
+  );
+
+  const carritoId = carritoRows[0].id;
+
+  
+  const { rows } = await poolPostgres.query(
+    `INSERT INTO carrito_productos (carrito_id, producto_id, cantidad)
+     VALUES ($1, $2, 1)
+     ON CONFLICT (carrito_id, producto_id)
+     DO UPDATE SET cantidad = carrito_productos.cantidad + 1
+     RETURNING *`,
+    [carritoId, productoId]
+  );
+
+  return rows[0];
+};
+
 export const productosModel ={
+    
     crearProducto,
     obtenerProductos,
     modificarProductos,
-    eliminarProductos
+    eliminarProductos,
+    agregarProductoAlCarrito
 
 }
