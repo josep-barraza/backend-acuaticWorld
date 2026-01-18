@@ -46,6 +46,7 @@ try {
  
 };
 
+ 
 /* Modificar usuario */
 const actualizarPassword = async (id, nuevaPassword) => {
   const hashedPassword = await bcrypt.hash(nuevaPassword, 10);

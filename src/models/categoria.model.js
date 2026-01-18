@@ -1,5 +1,7 @@
 import {poolPostgres} from '../config/dB.postgres.js'
 
+/* prueba */
+
 const crearCategorias = async (nombre) => {
    
     const query = {
@@ -11,6 +13,8 @@ const crearCategorias = async (nombre) => {
     return rows[0]
     };
 
+    /* prueba */
+
 const getAllCategorias = async () => {
 
     const query = {
@@ -20,6 +24,8 @@ const getAllCategorias = async () => {
     return rows      
 
 }   
+
+/* prueba */
 
 const modificarCategorias = async (id,nombre) => {
  
@@ -34,6 +40,7 @@ const modificarCategorias = async (id,nombre) => {
     return rows [0]
 
 }
+/* prueba */
 
 const eliminarCategorias = async(id) => {
 
@@ -48,9 +55,32 @@ const eliminarCategorias = async(id) => {
 
 } 
 
+
+/* 
+const mostrarProductosXCAtegoria = async(categorias.nombre) => {
+   const query = {
+    text : `select p.* 
+            FROM productos p
+            JOIN categorias c 
+            ON p.categoria_id = c.id
+            where c.nombre = $1
+            RETURNING *`,
+            values:[categorias.nombre]
+   } 
+   const {rows} = await poolPostgres.query(query);
+   return rows[0];
+
+}
+ */
 export const categoriaModel = {
 crearCategorias,
 getAllCategorias,
 modificarCategorias,
-eliminarCategorias
+eliminarCategorias/* ,
+mostrarProductosXCAtegoria */
 }
+
+
+
+
+

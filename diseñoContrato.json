@@ -1,0 +1,308 @@
+
+
+POST 
+
+POST/register
+
+body:
+    payload:{
+  "nombre":"string",  
+  "email":"string",
+  "password":"string"
+}
+respuesta:
+        ok:true,
+        msg: 'usuario creado'
+       payload:{
+  "nombre":"string",
+  "email":"string",
+  "creado_en": "date"
+}
+
+
+POST  /login
+
+body:
+    payload:
+{  
+  "email":"string",
+  "password":"string"
+}
+respuesta:
+        ok:true,
+        msg: 'usuario'
+       payload:{
+  "tokend":"string",
+
+  "usuario":{
+  "nombre":"string",
+  "email":"string",
+}}
+
+
+
+
+PUT    /password
+
+body:
+    payload:{  
+  "email":"string",
+  "passwordActual":"string",
+  "nuevaPassword":"string"
+}
+respuesta:
+        ok:true,
+        msg: 'cambio de contraseña exitosa'
+       payload:{
+
+  "nombre":"string",
+  "email":"string",
+  
+}
+
+DELETE delete/:id
+
+paraman:
+      /delete/:id
+
+respuesta:
+        ok:true,
+        msg: 'usuario eliminado'
+       payload:
+               {
+  
+  "nombre":"string",
+  "email":"string",
+  
+}
+
+// cursos
+
+GET   cursos
+
+body:
+    payload:{} 
+    respuesta:
+      
+       ok:true,
+        msg: 'todos los cursos'
+       payload:{
+ "nombre": "string",
+  "descripcion": "string",
+  "duracion": "number",
+  "valor": "number"
+}
+
+
+POST  /cursos
+
+body:
+    payload:{
+  "nombre": "string",
+  "descripcion": "string",
+  "duracion": "number",
+  "valor": "number"
+}
+respuesta:
+        ok:true,
+        msg: 'curso creado'
+       payload:{
+ "nombre": "string",
+  "descripcion": "string",
+  "duracion": "number",
+  "valor": "number"
+}
+
+
+PUT    cursos/:id
+params :id
+body:body:
+    payload:{
+
+  "nombre": "string",
+  "descripcion": "string",
+  "duracion": "number",
+  "valor": "number"
+}
+respuesta:
+        ok:true,
+        msg: 'curso actualizado'
+       payload: {
+ "nombre": "string",
+  "descripcion": "string",
+  "duracion": "number",
+  "valor": "number"
+}
+   
+DELETE cursos/:id
+
+paraman:
+      cursos/:id
+
+respuesta:
+        ok:true,
+        msg: 'usuario eliminado'
+       payload:{
+  
+    "id" : "number",
+    "nombre": "string",
+    "descripcion": "string",
+    "duracion": "number",
+    "valor": "number"
+  
+}
+
+// productos
+
+GET   productos
+
+
+body:
+    payload:{} 
+    respuesta:
+      
+        ok:true,
+        msg: 'todos los productos'
+       payload: {
+ 
+  "nombre": "string",
+  "descripcion": "string",
+  "precio": "number",
+  "stock": "number",
+  "categoria_id":"number"
+
+
+}
+
+
+POST  /productos
+
+body:
+    payload:
+{
+  
+ "nombre": "string",
+  "descripcion": "string",
+  "precio": "number",
+  "stock": "number",
+  "categoria_id":"number"
+}
+respuesta:
+        ok:true,
+        msg: ' producto creado'
+       payload:{
+ 
+ "nombre": "string",
+  "descripcion": "string",
+  "precio": "number",
+  "stock": "number",
+  "categoria_id":"number"
+}
+
+
+PUT    productos/:id
+params :id
+body:body:
+    payload:
+{
+  
+  "nombre": "string",
+  "descripcion": "string",
+  "precio": "number",
+  "stock": "number",
+  "categoria_id":"number"
+}
+respuesta:
+        ok:true,
+        msg: 'producto actualizado'
+       payload:{
+ 
+ "nombre": "string",
+  "descripcion": "string",
+  "precio": "number",
+  "stock": "number",
+  "categoria_id":"number"
+}
+   
+DELETE productos/:id
+
+paraman:
+      :id
+
+respuesta:
+        ok:true,
+        msg: 'producto eliminado'
+       payload:{
+   "nombre": "string",
+  "descripcion": "string",
+  "precio": "number",
+  "stock": "number",
+  "categoria_id":"number"
+
+}
+
+// bitacoras
+
+
+get /bitacoras
+
+body:
+    payload:{
+        "fecha":"date"} 
+    respuesta:
+      
+        ok:true,
+        msg: 'bitacora encontrada'
+       payload:
+               {
+    "nombre":"string" ,
+    "edad" : "number",
+    "fecha_buceo": "date",
+    "lugar_buceo": "string" ,
+    "exp_ultimas24hr": "boolean",
+    "nuevo_buceo" :"boolean",
+    "deja_sup": "date",
+    "llega_fondo": "date",
+    "deja_fondo": "date",
+    "profundidad": "number",
+    "tipo_buceo": "string",
+    "temperatura_agua" :"number"
+}
+
+post /bitacoras
+
+
+body:
+    payload:
+{
+  "nombre":"string" ,
+    "edad" : "number",
+    "fecha_buceo": "date",
+    "lugar_buceo": "string" ,
+    "exp_ultimas24hr": "boolean",
+    "nuevo_buceo" :"boolean",
+    "deja_sup": "date",
+    "llega_fondo": "date",
+    "deja_fondo": "date",
+    "profundidad": "number",
+    "tipo_buceo": "string",
+    "temperatura_agua" :"number"
+}
+
+respuesta:
+        ok:true,
+        msg: ' bitacora creada'
+       payload: {
+   "nombre":"string" ,
+    "edad" : "number",
+    "fecha_buceo": "date",
+    "lugar_buceo": "string" ,
+    "exp_ultimas24hr": "boolean",
+    "nuevo_buceo" :"boolean",
+    "deja_sup": "date",
+    "llega_fondo": "date",
+    "deja_fondo": "date",
+    "profundidad": "number",
+    "tipo_buceo": "string",
+    "temperatura_agua" :"number"
+}

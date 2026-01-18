@@ -7,6 +7,8 @@ router.post('/register', userController.register)
 
 router.post('/login',userController.login)
 
+router.get('/perfil', userController.perfil)
+
 router.patch('password',userController.cambiarContraseña)
 
 router.delete('eliminar:id',userController.eliminarUsuario)

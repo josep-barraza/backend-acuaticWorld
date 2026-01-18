@@ -15,9 +15,12 @@ router.delete('/cursos/:id',cursosController.eliminarCursos);
 
 
 
-router.get("/perfil",middleware.verificarToken,cursosController.mostrarCursosXUsuarios);
+router.get('/usuarios/cursos',middleware.verificarToken,cursosController.mostrarCursosXUsuarios
+);
 
-router.post("/comprar",middleware.verificarToken,cursosController.comprarCurso);
+router.post('/cursos/comprar',middleware.verificarToken,cursosController.comprarCurso
+);
+
 
 
 export default router;

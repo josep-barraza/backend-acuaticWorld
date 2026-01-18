@@ -58,7 +58,6 @@ const eliminarCursos = async(id) =>{
 
 
 const cursosPorUsuario = async (usuarioId) => {
-
   const query = {
     text: `
       SELECT c.*
@@ -67,14 +66,14 @@ const cursosPorUsuario = async (usuarioId) => {
         ON uc.curso_id = c.id
       WHERE uc.usuario_id = $1;
     `,
-    values: [usuarioId]   
+    values: [usuarioId]
   };
 
   const { rows } = await poolPostgres.query(query);
   return rows;
 };
 
-const comprarCurso = async (usuarioId, cursoId) => {
+const comprarCursoDB = async (usuarioId, cursoId) => {
   const query = {
     text: `
       INSERT INTO usuarios_cursos (usuario_id, curso_id)
@@ -86,16 +85,17 @@ const comprarCurso = async (usuarioId, cursoId) => {
   };
 
   const { rows } = await poolPostgres.query(query);
-  return rows[0];   
+  return rows[0];
 };
 
-export const curosModel = {
+
+export const cursosModel= {
   getAllCursos,
   modificarCuersos,
   crearCursos,
   eliminarCursos,
   cursosPorUsuario,
-  comprarCurso        
+  comprarCursoDB      
   
 };
 

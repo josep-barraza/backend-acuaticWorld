@@ -5,52 +5,75 @@ const crearProducto = async(nombre,descripcion,precio,img,stock,categoria_id) =>
     const query ={
         text:`INSERT INTO productos 
         (nombre,descripcion,precio,img,stock,categoria_id)
-        VALUES  ($1,$2,$3,$3,$4,$5,$6)
+        VALUES  ($1,$2,$3,$4,$5,$6)
         RETURNING *`,
         values :[nombre,descripcion,precio,img,stock,categoria_id]
     }
     const {rows} = await poolPostgres.query(query);
-    return rows[0];
+    return rows;
 };
 
-const obtenerProductos = async() => {
-    const query = {
-        text :`SELECT * FROM productos   `
-     }
-    const {rows} = await poolPostgres.query(query)
-    return rows[0];
-    }
-
-const modificarProductos = async(id,{nombre,descripcion,precio,img,stock,categoria_id}) => {
-    const  query = {
-        text: `UPDATE productos 
-        SET nombre = $2
-            descripcion = $3
-            precio = $4
-            img = $5
-            stock = $6
-            categori_id =7 
-            WHERE id = $1
-            RETURNING *`,
-            values :[id,nombre,descripcion,precio,img,stock,categoria_id]
-    }
-    const {rows} = await poolPostgres.query(query);
-    return rows[0]
-;
-} 
-
-const eliminarProductos = async(id) => {
+const obtenerProductos = async (limit = 8, offset = 0) => {
   const query = {
-    text : `DELETE * FROM producto 
-            WHERE id = $1
-            RETURNING *`,
-            values :[id]
-  }
-   const {rows} = await poolPostgres.query(query);
-   return rows[0];
+    text: `
+      SELECT 
+        p.id,
+        p.nombre,
+        p.descripcion,
+        p.precio,
+        p.img,
+        p.stock,
+        p.categoria_id,
+        c.nombre AS categoria
+      FROM productos p
+      JOIN categorias c ON p.categoria_id = c.id
+      ORDER BY p.id DESC
+      LIMIT $1 OFFSET $2
+    `,
+    values: [limit, offset],
+  };
+
+  const { rows } = await poolPostgres.query(query);
+  return rows;
+};
 
 
-}
+
+const modificarProductos = async (id, { nombre, descripcion, precio, img, stock, categoria_id }) => {
+  const query = {
+    text: `
+      UPDATE productos
+      SET nombre = $2,
+          descripcion = $3,
+          precio = $4,
+          img = $5,
+          stock = $6,
+          categoria_id = $7
+      WHERE id = $1
+      RETURNING *
+    `,
+    values: [id, nombre, descripcion, precio, img, stock, categoria_id]
+  };
+
+  const { rows } = await poolPostgres.query(query);
+  return rows[0];
+};
+
+
+const eliminarProductos = async (id) => {
+  const query = {
+    text: `
+      DELETE FROM productos
+      WHERE id = $1
+      RETURNING *
+    `,
+    values: [id]
+  };
+
+  const { rows } = await poolPostgres.query(query);
+  return rows[0];
+};
+
 
 
 
@@ -82,8 +105,31 @@ const agregarProductoAlCarrito = async (usuarioId, productoId) => {
     [carritoId, productoId]
   );
 
-  return rows[0];
+  return rows;
 };
+
+   /* aqui se le agrega la categoria al producto  */
+
+const mostrarProductoConCategoria = async () => {
+  const query = {
+    text: `
+      SELECT
+        p.id,
+        p.nombre,
+        p.descripcion,
+        p.precio,
+        p.img,
+        p.stock,
+        c.nombre AS categoria
+      FROM productos p
+      JOIN categorias c ON p.categoria_id = c.id
+    `
+  };
+
+  const { rows } = await poolPostgres.query(query);
+  return rows;
+};
+
 
 export const productosModel ={
     
@@ -91,6 +137,7 @@ export const productosModel ={
     obtenerProductos,
     modificarProductos,
     eliminarProductos,
-    agregarProductoAlCarrito
+    agregarProductoAlCarrito,
+    mostrarProductoConCategoria
 
 }

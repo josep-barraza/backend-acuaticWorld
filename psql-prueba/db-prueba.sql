@@ -55,6 +55,7 @@ CREATE TABLE materias (
 
 
 
+
 CREATE TABLE cursos (
     id SERIAL PRIMARY KEY,
     img TEXT,
@@ -65,6 +66,7 @@ CREATE TABLE cursos (
     materia_id INT REFERENCES materias(id),
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE usuarios_cursos (
     id SERIAL PRIMARY KEY,

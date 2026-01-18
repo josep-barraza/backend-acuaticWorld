@@ -45,9 +45,15 @@ const register = async (req, res) => {
 )
 
     return res.status(201).json({
-      ok: true,
-      usuario: token,
-    });
+  ok: true,
+  user: {
+    id: nuevoUsuario.id,
+    nombre: nuevoUsuario.nombre,
+    email: nuevoUsuario.email,
+  },
+  token,
+});
+
 
   } catch (error) {
     // Email duplicado desde PostgreSQL
@@ -108,7 +114,7 @@ const login = async(req, res) => {
         res.status(200).json({
           ok:true,
           msg:'correo y contraseña correcta',
-          msg2: token 
+           token 
         })
 
         
@@ -119,6 +125,38 @@ const login = async(req, res) => {
         msg: 'error en el servidor'
     })
 }};
+
+const perfil = async (req, res) => {
+  try {
+    // viene desde el middleware
+    const { email } = req.user;
+
+    const usuario = await userModel.findOneByEmail(email);
+
+    if (!usuario) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Usuario no encontrado",
+      });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      usuario: {
+        nombre: usuario.nombre,
+        email: usuario.email,
+      },
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Error del servidor",
+    });
+  }
+};
+
+
 
   const cambiarContraseña = async(req, res) => {
   const {email, passwordActual, nuevaPassword} = req.body;
@@ -157,11 +195,10 @@ const token =  jwt.sign({email:usuarioActualizado.email},
 )
 
 res.status(200).json({
-  ok:true,
-  msg: token
-  
-})
-
+  ok: true,
+  msg: 'correo y contraseña correcta',
+  token
+});
 
     
   } catch (error) {
@@ -207,5 +244,6 @@ export const userController = {
     register,
     login,
     cambiarContraseña,
-    eliminarUsuario
+    eliminarUsuario,
+    perfil
 }

@@ -28,35 +28,30 @@ const nuevoProducto = async(req, res) =>{
 
 }
 
-const verProductos = async (req,res)=>{
-try {
-   const productos = await productosModel.obtenerProductos();
-   if(!productos){
-    res.status(400).json({
-        ok:false,
-        msg:'no se encontraron productos'
-    })
-   }
-    
-   res.status(200).json({
-    ok: true,
-    msg:'lista de productos',
-    productos
+const verProductos = async (req, res) => {
+  try {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 8;
+    const offset = (page - 1) * limit;
 
-   })
+    const productos = await productosModel.obtenerProductos(limit, offset);
 
-} catch (error) {
+    res.status(200).json({
+      ok: true,
+      productos,
+      page,
+      limit,
+    });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
-        ok:false,
-        msg:'error en el servidor'
-    })
-    
-}
+      ok: false,
+      msg: "error en el servidor",
+    });
+  }
+};
 
 
-
-
-}
 
 const modificarProductos = async (req,res) => {
  const {id} = req.params;
@@ -133,7 +128,8 @@ const agregarAlCarrito = async (req, res) => {
     if (!productoId)
       return res.status(400).json({ msg: "productoId es requerido" });
 
-    const item = await agregarProductoAlCarrito(usuarioId, productoId);
+  const item = await productosModel.agregarProductoAlCarrito(usuarioId, productoId);
+
 
     res.status(201).json({
       ok: true,

@@ -1,6 +1,6 @@
 import { categoriaModel } from "../models/categoria.model.js";
 
-// Crear categoría
+// Crear categoría para prueba
 const nuevaCategoria = async (req, res) => {
     try {
         const { nombre } = req.body;
@@ -34,7 +34,7 @@ const nuevaCategoria = async (req, res) => {
     }
 };
 
-// Ver todas las categorías
+// Ver todas las categorías para prueba
 const verCategoria = async (req, res) => {
     try {
         const categorias = await categoriaModel.getAllCategorias();
@@ -59,7 +59,7 @@ const verCategoria = async (req, res) => {
     }
 };
 
-// Actualizar categoría
+// Actualizar categoría para prueba 
 const actualizarCategoria = async (req, res) => {
     try {
         const { id } = req.params;
@@ -95,7 +95,7 @@ const actualizarCategoria = async (req, res) => {
     }
 };
 
-// Eliminar categoría
+// Eliminar categoría para prueba
 const eliminarCategoria = async (req, res) => {
     try {
         const { id } = req.params;
@@ -122,6 +122,27 @@ const eliminarCategoria = async (req, res) => {
         });
     }
 };
+
+/* const productosXCategoria = async(req,res) => {
+      
+   
+   try {
+    const productos = await categoriaModel.mostrarProductosXCAtegoria(categoria);
+    
+    res.status(201).json({
+        ok:true,
+        msg:'categoria',
+        productos
+    })
+
+   } catch (error) {
+    res.status(500).json({
+        ok:false,
+        msg:'error en el servidor'
+    })
+    
+   }
+} */
 
 export const categoriaController = {
     nuevaCategoria,
