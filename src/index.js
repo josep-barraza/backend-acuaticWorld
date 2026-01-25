@@ -30,5 +30,9 @@ app.use('/aquaticWorld',productosRoutes)
 app.use('/aquaticWorld', cursosRouters);
 
 
+app.get('/', (req, res) => {
+  res.send('Backend funcionando 🚀');
+});
+
 
 export default app;
