@@ -38,13 +38,20 @@ import poolPostgres from './config/dB.postgres.js';
 
 app.get('/test-db', async (req, res) => {
   try {
-    const result = await poolPostgres.query('SELECT 1');
-    res.json({ ok: true, result: result.rows });
+    console.log('🟡 Probando conexión DB...');
+    const result = await poolPostgres.query('SELECT 1 AS test');
+    console.log('🟢 Conexión OK');
+
+    res.json({
+      ok: true,
+      result: result.rows,
+    });
   } catch (error) {
-    console.error('DB ERROR:', error);
+    console.error('🔴 ERROR REAL DB:', error);
     res.status(500).json({
       ok: false,
-      error: error.message || error.toString(),
+      error: error.message,
+      stack: error.stack,
     });
   }
 });
