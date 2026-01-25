@@ -38,16 +38,13 @@ import poolPostgres from './config/dB.postgres.js';
 
 app.get('/test-db', async (req, res) => {
   try {
-    const result = await poolPostgres.query('SELECT NOW()');
-    res.json({
-      ok: true,
-      time: result.rows[0],
-    });
+    const result = await poolPostgres.query('SELECT 1');
+    res.json({ ok: true, result: result.rows });
   } catch (error) {
-    console.error(error);
+    console.error('DB ERROR:', error);
     res.status(500).json({
       ok: false,
-      error: error.message,
+      error: error.message || error.toString(),
     });
   }
 });
