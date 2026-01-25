@@ -31,6 +31,20 @@ app.use('/aquaticWorld',productosRoutes)
 app.use('/aquaticWorld', cursosRouters);
 
 
+// en index.js o donde tengas las rutas
+import poolPostgres from './config/dB.postgres.js';
+
+app.get('/aquaticWorld/productos-test', async (req, res) => {
+  try {
+    const { rows } = await poolPostgres.query(
+      'SELECT * FROM productos ORDER BY id LIMIT 10'
+    );
+    res.json({ ok: true, data: rows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ ok: false, error: error.message });
+  }
+});
 
 
 
