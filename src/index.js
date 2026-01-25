@@ -34,5 +34,22 @@ app.get('/', (req, res) => {
   res.send('Backend funcionando 🚀');
 });
 
+import poolPostgres from './config/dB.postgres.js';
+
+app.get('/test-db', async (req, res) => {
+  try {
+    const result = await poolPostgres.query('SELECT NOW()');
+    res.json({
+      ok: true,
+      time: result.rows[0],
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      ok: false,
+      error: error.message,
+    });
+  }
+});
 
 export default app;
