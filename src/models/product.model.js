@@ -130,15 +130,33 @@ const mostrarProductoConCategoria = async () => {
   return rows;
 };
 
-const mostrarProductosCarro = async() => {
- const query ={
-  text: `SELECT * FROM productos`
- }
+const mostrarProductosCarro = async (usuarioId) => {
+  const query = {
+    text: `
+      SELECT 
+        p.id,
+        p.nombre,
+        p.precio,
+        p.img,
+        cp.cantidad
+      FROM carritos c
+      JOIN carrito_productos cp ON cp.carrito_id = c.id
+      JOIN productos p ON p.id = cp.producto_id
+      WHERE c.usuario_id = $1
+      AND c.activo = TRUE
+    `,
+    values: [usuarioId]
+  };
 
- const {rows} = await poolPostgres(query)
- return rown
+  const { rows } = await poolPostgres.query(query);
 
-}
+  return rows;
+};
+
+module.exports = {
+  mostrarProductosCarro
+};
+
 
 export const productosModel ={
     

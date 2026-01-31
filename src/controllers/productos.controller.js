@@ -144,29 +144,27 @@ const agregarAlCarrito = async (req, res) => {
   }
 };
 
-const verProductosCarro = async(req ,res) => {
+const verProductosCarro = async (req, res) => {
+  try {
+    const usuarioId = req.user.id; 
 
-    try {
-        const productos = await productosModel.mostrarProductosCarro()
+    const items = await productosModel.mostrarProductosCarro(usuarioId);
 
-        res.status(201).json({
-            ok:true,
-            msg: productos
+    res.status(200).json({
+      ok: true,
+      items
+    });
 
-    })
+  } catch (error) {
+    console.error(error);
 
-    } catch (error) {
-        res.status(500).json({
-            ok:false,
-            msg:'error en el servidor'
-        })
-        
-    }
+    res.status(500).json({
+      ok: false,
+      msg: "Error en el servidor"
+    });
+  }
+};
 
-
-
- 
-}
 
 
 export const productosController = {
