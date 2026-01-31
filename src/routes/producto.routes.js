@@ -16,6 +16,10 @@ router.delete('/productos/:id',productosController.eliminarProductos)
 router.post("/carrito/agregar",middleware.verificarToken,productosController.agregarAlCarrito
 );
 
+router.get("/carrito",middleware.verificarToken,productosController.verProductosCarro
+);
 
 
-export default router;
+
+
+export default router;  

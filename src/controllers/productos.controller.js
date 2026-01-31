@@ -1,3 +1,4 @@
+import poolPostgres from "../config/dB.postgres.js"
 import { productosModel } from "../models/product.model.js"
 
 const nuevoProducto = async(req, res) =>{
@@ -143,6 +144,30 @@ const agregarAlCarrito = async (req, res) => {
   }
 };
 
+const verProductosCarro = async(req ,res) => {
+
+    try {
+        const productos = await productosModel.mostrarProductosCarro()
+
+        res.status(201).json({
+            ok:true,
+            msg: productos
+
+    })
+
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg:'error en el servidor'
+        })
+        
+    }
+
+
+
+ 
+}
+
 
 export const productosController = {
     
@@ -150,6 +175,7 @@ nuevoProducto,
 verProductos,
 modificarProductos,
 eliminarProductos,
-agregarAlCarrito
+agregarAlCarrito,
+verProductosCarro
 
 }

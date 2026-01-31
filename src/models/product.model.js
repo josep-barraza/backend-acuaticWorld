@@ -130,6 +130,15 @@ const mostrarProductoConCategoria = async () => {
   return rows;
 };
 
+const mostrarProductosCarro = async() => {
+ const query ={
+  text: `SELECT * FROM productos`
+ }
+
+ const {rows} = await poolPostgres(query)
+ return rown
+
+}
 
 export const productosModel ={
     
@@ -138,6 +147,7 @@ export const productosModel ={
     modificarProductos,
     eliminarProductos,
     agregarProductoAlCarrito,
-    mostrarProductoConCategoria
+    mostrarProductoConCategoria,
+    mostrarProductosCarro
 
 }
