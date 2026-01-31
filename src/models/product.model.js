@@ -153,9 +153,7 @@ const mostrarProductosCarro = async (usuarioId) => {
   return rows;
 };
 
-module.exports = {
-  mostrarProductosCarro
-};
+
 
 
 export const productosModel ={
