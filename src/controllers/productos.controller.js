@@ -123,14 +123,21 @@ try {
 
 const agregarAlCarrito = async (req, res) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ msg: "Usuario no autenticado" });
+    }
+
     const usuarioId = req.user.id;
     const { productoId } = req.body;
 
-    if (!productoId)
+    if (!productoId) {
       return res.status(400).json({ msg: "productoId es requerido" });
+    }
 
-  const item = await productosModel.agregarProductoAlCarrito(usuarioId, productoId);
-
+    const item = await productosModel.agregarProductoAlCarrito(
+      usuarioId,
+      productoId
+    );
 
     res.status(201).json({
       ok: true,
@@ -139,15 +146,22 @@ const agregarAlCarrito = async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Error al agregar producto al carrito" });
+    console.error("🔥 ERROR agregarAlCarrito:", err);
+    res.status(500).json({
+      ok: false,
+      error: err.message
+    });
   }
 };
 
+
 const verProductosCarro = async (req, res) => {
   try {
-    const usuarioId = req.user.id; 
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ msg: "Usuario no autenticado" });
+    }
 
+    const usuarioId = req.user.id;
     const items = await productosModel.mostrarProductosCarro(usuarioId);
 
     res.status(200).json({
@@ -156,14 +170,14 @@ const verProductosCarro = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
-
+    console.error("🔥 ERROR verProductosCarro:", error);
     res.status(500).json({
       ok: false,
-      msg: "Error en el servidor"
+      error: error.message
     });
   }
 };
+
 
 
 
