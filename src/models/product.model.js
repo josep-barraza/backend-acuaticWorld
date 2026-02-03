@@ -76,10 +76,7 @@ const eliminarProductos = async (id) => {
 
 
 
-
 const agregarProductoAlCarrito = async (usuarioId, productoId) => {
-
-  
   await poolPostgres.query(
     `INSERT INTO carritos (usuario_id)
      VALUES ($1)
@@ -87,15 +84,17 @@ const agregarProductoAlCarrito = async (usuarioId, productoId) => {
     [usuarioId]
   );
 
- 
   const { rows: carritoRows } = await poolPostgres.query(
     `SELECT id FROM carritos WHERE usuario_id = $1 AND activo = TRUE`,
     [usuarioId]
   );
 
+  if (!carritoRows.length) {
+    throw new Error("No se encontró carrito activo");
+  }
+
   const carritoId = carritoRows[0].id;
 
-  
   const { rows } = await poolPostgres.query(
     `INSERT INTO carrito_productos (carrito_id, producto_id, cantidad)
      VALUES ($1, $2, 1)
@@ -105,8 +104,9 @@ const agregarProductoAlCarrito = async (usuarioId, productoId) => {
     [carritoId, productoId]
   );
 
-  return rows;
+  return rows[0];
 };
+
 
    /* aqui se le agrega la categoria al producto  */
 
