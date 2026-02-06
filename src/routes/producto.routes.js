@@ -19,8 +19,8 @@ router.post("/carrito/agregar",middleware.verificarToken,productosController.agr
 router.get("/carrito",middleware.verificarToken,productosController.verProductosCarro
 );
 
-router.delete("/carrito/:id", productosController.eliminarProductoCarro);
-router.delete("/delete/carrito", productosController.eliminarAllCarro);
+router.delete("/carrito/:id",middleware.verificarToken ,productosController.eliminarProductoCarro);
+router.delete("/delete/carrito",middleware.verificarToken ,productosController.eliminarAllCarro);
 
 
 
