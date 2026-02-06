@@ -153,6 +153,35 @@ const mostrarProductosCarro = async (usuarioId) => {
   return rows;
 };
 
+const eliminarProductoCarrito = async (producto_id) => {
+  const query = {
+    text: `
+      DELETE FROM carrito_producto
+      WHERE producto_id = $1
+      RETURNING *
+    `,
+    values: [producto_id],
+  };
+
+  const { rows } = await poolPostgres(query);
+  return rows;
+};
+
+
+const eliminarAllCarrito = async (usuario_id) => {
+  const query = {
+    text: `
+      DELETE FROM carrito_producto
+      WHERE usuario_id = $1
+      RETURNING *
+    `,
+    values: [usuario_id],
+  };
+
+  const { rows } = await poolPostgres(query);
+  return rows;
+};
+
 
 
 
@@ -164,6 +193,8 @@ export const productosModel ={
     eliminarProductos,
     agregarProductoAlCarrito,
     mostrarProductoConCategoria,
-    mostrarProductosCarro
+    mostrarProductosCarro,
+    eliminarProductoCarrito,
+    eliminarAllCarrito
 
 }

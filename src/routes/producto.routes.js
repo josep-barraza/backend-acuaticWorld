@@ -19,6 +19,10 @@ router.post("/carrito/agregar",middleware.verificarToken,productosController.agr
 router.get("/carrito",middleware.verificarToken,productosController.verProductosCarro
 );
 
+router.delete("/carrito/:id", productosController.eliminarProductoCarro);
+router.delete("/carrito", productosController.eliminarAllCarro);
+
+
 
 
 

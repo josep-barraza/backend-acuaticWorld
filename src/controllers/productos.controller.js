@@ -178,6 +178,48 @@ const verProductosCarro = async (req, res) => {
   }
 };
 
+const eliminarProductoCarro = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    if (!id) {
+      return res.status(400).json({
+        ok: false,
+        msg: "id requerido",
+      });
+    }
+
+    const eliminado = await productosModel.eliminarProductoCarrito(id);
+
+    return res.json({
+      ok: true,
+      eliminado,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "error servidor",
+    });
+  }
+};
+
+const eliminarAllCarro = async (req, res) => {
+  const usuario_id = req.user.id; 
+
+  try {
+    const eliminado = await productosModel.eliminarAllCarrito(usuario_id);
+
+    return res.json({
+      ok: true,
+      eliminado,
+    });
+  } catch {
+    return res.status(500).json({
+      ok: false,
+      msg: "error servidor",
+    });
+  }
+};
 
 
 
@@ -188,6 +230,8 @@ verProductos,
 modificarProductos,
 eliminarProductos,
 agregarAlCarrito,
-verProductosCarro
+verProductosCarro,
+eliminarProductoCarro,
+eliminarAllCarro
 
 }
