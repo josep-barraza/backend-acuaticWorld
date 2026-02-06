@@ -177,49 +177,36 @@ const verProductosCarro = async (req, res) => {
     });
   }
 };
-
 const eliminarProductoCarro = async (req, res) => {
-  const { id } = req.params;
+  const { producto_id } = req.params;
+  const carrito_id = req.user.carrito_id; // desde token
 
   try {
-    if (!id) {
-      return res.status(400).json({
-        ok: false,
-        msg: "id requerido",
-      });
-    }
+    const eliminado = await productosModel.eliminarProductoCarrito(
+      carrito_id,
+      producto_id
+    );
 
-    const eliminado = await productosModel.eliminarProductoCarrito(id);
-
-    return res.json({
-      ok: true,
-      eliminado,
-    });
+    res.json({ ok: true, eliminado });
   } catch (error) {
-    return res.status(500).json({
-      ok: false,
-      msg: "error servidor",
-    });
+    console.error(error);
+    res.status(500).json({ ok: false, msg: "Error servidor" });
   }
 };
 
 const eliminarAllCarro = async (req, res) => {
-  const usuario_id = req.user.id; 
+  const carrito_id = req.user.carrito_id;
 
   try {
-    const eliminado = await productosModel.eliminarAllCarrito(usuario_id);
+    const eliminado = await productosModel.eliminarAllCarrito(carrito_id);
 
-    return res.json({
-      ok: true,
-      eliminado,
-    });
-  } catch {
-    return res.status(500).json({
-      ok: false,
-      msg: "error servidor",
-    });
+    res.json({ ok: true, eliminado });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ ok: false, msg: "Error servidor" });
   }
 };
+
 
 
 
