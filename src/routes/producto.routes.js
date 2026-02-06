@@ -20,7 +20,7 @@ router.get("/carrito",middleware.verificarToken,productosController.verProductos
 );
 
 router.delete("/carrito/:id", productosController.eliminarProductoCarro);
-router.delete("/carrito", productosController.eliminarAllCarro);
+router.delete("/delete/carrito", productosController.eliminarAllCarro);
 
 
 
