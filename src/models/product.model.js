@@ -153,15 +153,17 @@ const mostrarProductosCarro = async (usuarioId) => {
   return rows;
 };
 
-const eliminarProductoCarrito = async (carrito_id, producto_id) => {
+const eliminarProductoCarrito = async (usuario_id, producto_id) => {
   const query = {
     text: `
       DELETE FROM carrito_productos
-      WHERE carrito_id = $1
+      WHERE carrito_id = (
+        SELECT id FROM carritos WHERE usuario_id = $1
+      )
       AND producto_id = $2
       RETURNING *
     `,
-    values: [carrito_id, producto_id],
+    values: [usuario_id, producto_id]
   };
 
   const { rows } = await poolPostgres.query(query);
@@ -169,19 +171,22 @@ const eliminarProductoCarrito = async (carrito_id, producto_id) => {
 };
 
 
-const eliminarAllCarrito = async (carrito_id) => {
+const eliminarAllCarrito = async (usuario_id) => {
   const query = {
     text: `
       DELETE FROM carrito_productos
-      WHERE carrito_id = $1
+      WHERE carrito_id = (
+        SELECT id FROM carritos WHERE usuario_id = $1
+      )
       RETURNING *
     `,
-    values: [carrito_id],
+    values: [usuario_id]
   };
 
   const { rows } = await poolPostgres.query(query);
   return rows;
 };
+
 
 
 
