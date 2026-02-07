@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 
 // middlewares globales
 app.use(cors({
-   origin: process.env.FRONTEND_URL,
+   origin: process.env.FRONTEND_URL || process.env.FRONTEND_URLVERCEL,
   credentials: true,
 }));
 app.use(express.json());
