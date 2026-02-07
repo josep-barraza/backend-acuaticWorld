@@ -17,10 +17,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // middlewares globales
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URLVERCEL,
+  "http://localhost:5173"
+];
+
 app.use(cors({
-   origin: process.env.FRONTEND_URL || process.env.FRONTEND_URLVERCEL,
-  credentials: true,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("No permitido por CORS"));
+    }
+  },
+  credentials: true
 }));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
