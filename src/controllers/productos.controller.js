@@ -33,9 +33,15 @@ const verProductos = async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 8;
+    const categoria = req.query.categoria || "Todas";
+
     const offset = (page - 1) * limit;
 
-    const productos = await productosModel.obtenerProductos(limit, offset);
+    const productos = await productosModel.obtenerProductos(
+      limit,
+      offset,
+      categoria
+    );
 
     res.status(200).json({
       ok: true,
@@ -51,6 +57,7 @@ const verProductos = async (req, res) => {
     });
   }
 };
+
 
 
 

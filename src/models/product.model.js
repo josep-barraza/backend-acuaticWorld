@@ -13,27 +13,37 @@ const crearProducto = async(nombre,descripcion,precio,img,stock,categoria_id) =>
     return rows;
 };
 
-const obtenerProductos = async (limit = 8, offset = 0) => {
-  const query = {
-    text: `
-      SELECT 
-        p.id,
-        p.nombre,
-        p.descripcion,
-        p.precio,
-        p.img,
-        p.stock,
-        p.categoria_id,
-        c.nombre AS categoria
-      FROM productos p
-      JOIN categorias c ON p.categoria_id = c.id
-      ORDER BY p.id DESC
-      LIMIT $1 OFFSET $2
-    `,
-    values: [limit, offset],
-  };
+const obtenerProductos = async (limit = 8, offset = 0, categoria = "Todas") => {
+  let query = `
+    SELECT 
+      p.id,
+      p.nombre,
+      p.descripcion,
+      p.precio,
+      p.img,
+      p.stock,
+      p.categoria_id,
+      c.nombre AS categoria
+    FROM productos p
+    JOIN categorias c ON p.categoria_id = c.id
+  `;
 
-  const { rows } = await poolPostgres.query(query);
+  const values = [];
+
+ 
+  if (categoria && categoria !== "Todas") {
+    values.push(categoria);
+    query += ` WHERE c.nombre = $${values.length}`;
+  }
+
+  values.push(limit);
+  query += ` ORDER BY p.id DESC LIMIT $${values.length}`;
+
+  values.push(offset);
+  query += ` OFFSET $${values.length}`;
+
+  const { rows } = await poolPostgres.query(query, values);
+
   return rows;
 };
 
